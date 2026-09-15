@@ -1,10 +1,10 @@
 import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Compass, LayoutDashboard, MessageCircle } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { api, authState, type User } from "@/lib/api";
+import { api, authState, normalizeUser, type User } from "@/lib/api";
 import { Button } from "@/components/ui/button";
 
-export function useCurrentUser() { return useQuery({ queryKey: ["me", authState.token], queryFn: async () => (await api<User>("/auth/me")).data, enabled: Boolean(authState.token), retry: false }); }
+export function useCurrentUser() { return useQuery({ queryKey: ["me", authState.token], queryFn: async () => normalizeUser((await api<User & { modes: (string | { mode: string })[] }>("/auth/me")).data), enabled: Boolean(authState.token), retry: false }); }
 
 export function Layout() {
   const navigate = useNavigate();

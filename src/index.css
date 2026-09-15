@@ -142,14 +142,51 @@ input, textarea, select { width: 100%; padding: 11px 12px; font-size: 13px; }
 .my-job:hover strong { color: var(--green); }
 .my-job > span:first-child { display: grid; gap: 7px; }
 .my-job strong { font: 600 18px 'Playfair Display', serif; }
+.my-job-title { display: block; margin: 2px 0; text-decoration: none; font: 600 18px 'Playfair Display', serif; }
+.my-job-title:hover { color: var(--green); }
 .my-job small { color: var(--muted); font-size: 11px; }
 .status { padding: 3px 7px; font-size: 9px; }
 .status-completed { color: #35634a; background: #e3f0e6; }.status-in_progress { color: #a26421; background: #f7ead9; }.status-open { color: #326179; background: #e2edf2; }
 .my-job-budget { display: flex; align-items: center; gap: 14px; color: var(--green); font-weight: 600; font-size: 13px; }
+.my-job-actions { display: flex; align-items: center; gap: 18px; }
 .empty-card, .dashboard-callout { padding: 28px; }
 .empty-card h3, .dashboard-callout h2 { margin: 0 0 9px; font: 600 25px 'Playfair Display', serif; }
 .empty-card p, .dashboard-callout p { color: var(--muted); font-size: 13px; }
 .dashboard-callout { display: flex; justify-content: space-between; align-items: center; gap: 20px; background: var(--mint); border-color: #cde1d3; }
+.contract-callout { margin-top: 35px; background: var(--paper); border-color: var(--line); }
+.proposal-form-card { padding: 22px; }
+.proposal-form-card .section-heading { align-items: start; margin-bottom: 15px; }
+.proposal-form-card h3 { margin: 7px 0 0; font: 600 22px 'Playfair Display', serif; }
+.close-button { border: 0; background: transparent; color: var(--muted); font-size: 24px; line-height: 1; }
+.proposal-list, .contract-list, .milestone-list { display: grid; gap: 14px; }
+.proposal-card { padding: 23px; }
+.proposal-card-top, .proposal-details, .milestone-top, .contract-summary { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.proposal-copy { margin: 20px 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+.proposal-details { justify-content: start; padding: 14px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.proposal-details span { display: grid; gap: 4px; min-width: 130px; }
+.proposal-details small, .milestone-top small { color: var(--muted); font-size: 10px; }
+.proposal-details strong { color: var(--green); font-size: 14px; }
+.proposal-card .button { margin-top: 17px; }
+.proposal-submitted { color: #326179; background: #e2edf2; }.proposal-shortlisted { color: #a26421; background: #f7ead9; }.proposal-accepted { color: #35634a; background: #e3f0e6; }.proposal-rejected, .proposal-withdrawn { color: var(--muted); background: #eef0eb; }
+.contract-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 19px 5px; border-bottom: 1px solid var(--line); text-decoration: none; }
+.contract-row:hover strong { color: var(--green); }
+.contract-row > span { display: flex; align-items: center; gap: 14px; }
+.contract-row > span:first-child { min-width: 0; }
+.contract-row strong { font: 600 17px 'Playfair Display', serif; }
+.contract-row > span:last-child strong { color: var(--green); font: 600 13px 'DM Sans', sans-serif; }
+.contract-summary { padding: 22px; margin-bottom: 42px; }
+.milestone-heading { display: flex; justify-content: space-between; align-items: end; margin-bottom: 17px; }
+.milestone-heading h2 { margin: 8px 0 0; font-size: 32px; }
+.milestone-card { padding: 21px; }
+.milestone-index { display: grid; place-items: center; width: 31px; height: 31px; border-radius: 50%; color: var(--green); background: var(--mint); font: 11px 'DM Mono', monospace; }
+.milestone-top { justify-content: start; }
+.milestone-top > div { display: grid; gap: 3px; flex: 1; }
+.milestone-top strong { font: 600 17px 'Playfair Display', serif; }
+.milestone-card > p { margin: 16px 0; color: var(--muted); font-size: 13px; }
+.milestone-card form { margin-top: 18px; }
+.milestone-card .button { margin-top: 12px; }
+.submission-note { display: flex; align-items: start; gap: 7px; padding: 11px; margin: 14px 0; border-radius: 8px; background: #f5f1e8; color: #785b31; font-size: 12px; line-height: 1.4; }
+.milestone-actions { display: flex; gap: 10px; margin-top: 17px; }
 .narrow-page { max-width: 850px; margin: auto; }
 .form-heading { margin: 20px 0 32px; }
 .job-form-card { padding: 30px; }
@@ -162,4 +199,4 @@ input, textarea, select { width: 100%; padding: 11px 12px; font-size: 13px; }
 .empty-state { padding: 70px 20px; text-align: center; color: var(--muted); }
 .empty-state h3 { color: var(--ink); font: 600 25px 'Playfair Display', serif; }
 @media (max-width: 900px) { .topbar { padding: 0 20px; gap: 17px; }.main-nav { gap: 0; }.main-nav a { padding-inline: 8px; font-size: 12px; }.main-nav a svg { display: none; }.top-actions .button-ghost { display: none; }.hero { grid-template-columns: 1fr; padding: 50px 26px; }.hero-art { min-height: 390px; max-width: 500px; width: 100%; margin: auto; }.orbit-one { left: 12%; }.orbit-two { left: 22%; }.art-main { left: 18%; }.art-note { right: 2%; }.section, .page-section { padding: 55px 26px 75px; }.job-grid { grid-template-columns: 1fr 1fr; }.detail-layout { grid-template-columns: 1fr; gap: 30px; }.apply-panel { max-width: 420px; }.auth-page { grid-template-columns: 1fr; gap: 35px; min-height: unset; padding: 55px 26px 80px; }.auth-intro { max-width: 600px; }.stat-grid { margin-bottom: 50px; } }
-@media (max-width: 560px) { .topbar { height: 66px; }.brand { font-size: 20px; }.main-nav a:nth-child(2) { display: none; }.top-actions { margin-left: auto; }.top-actions .text-link { display: none; }.hero { padding-inline: 19px; }.hero h1 { font-size: 3.25rem; }.hero-copy > p { font-size: 15px; }.hero-actions { align-items: start; flex-direction: column; gap: 14px; }.hero-art { min-height: 320px; transform: scale(.83); transform-origin: top left; width: 120%; }.section, .page-section { padding-inline: 19px; }.section-heading, .page-heading, .dashboard-hero { align-items: start; flex-direction: column; }.section-heading h2 { font-size: 31px; }.job-grid, .how-grid, .stat-grid, .form-grid { grid-template-columns: 1fr; }.search-bar { align-items: stretch; flex-wrap: wrap; padding: 10px; }.search-bar input { flex-basis: calc(100% - 35px); }.search-bar select { width: 100%; border-top: 1px solid var(--line); }.detail-layout h1 { font-size: 3rem; }.detail-meta { align-items: start; flex-direction: column; gap: 8px; }.dashboard-callout, .form-footer { align-items: start; flex-direction: column; }.footer { padding-inline: 20px; flex-direction: column; gap: 7px; } }
+@media (max-width: 560px) { .topbar { height: 66px; }.brand { font-size: 20px; }.main-nav a:nth-child(2) { display: none; }.top-actions { margin-left: auto; }.top-actions .text-link { display: none; }.hero { padding-inline: 19px; }.hero h1 { font-size: 3.25rem; }.hero-copy > p { font-size: 15px; }.hero-actions { align-items: start; flex-direction: column; gap: 14px; }.hero-art { min-height: 320px; transform: scale(.83); transform-origin: top left; width: 120%; }.section, .page-section { padding-inline: 19px; }.section-heading, .page-heading, .dashboard-hero { align-items: start; flex-direction: column; }.section-heading h2 { font-size: 31px; }.job-grid, .how-grid, .stat-grid, .form-grid { grid-template-columns: 1fr; }.search-bar { align-items: stretch; flex-wrap: wrap; padding: 10px; }.search-bar input { flex-basis: calc(100% - 35px); }.search-bar select { width: 100%; border-top: 1px solid var(--line); }.detail-layout h1 { font-size: 3rem; }.detail-meta { align-items: start; flex-direction: column; gap: 8px; }.dashboard-callout, .form-footer, .contract-summary { align-items: start; flex-direction: column; }.my-job, .proposal-card-top, .contract-row { align-items: start; flex-direction: column; }.my-job-actions { width: 100%; justify-content: space-between; }.proposal-card .button { width: 100%; }.footer { padding-inline: 20px; flex-direction: column; gap: 7px; } }
