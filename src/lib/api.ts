@@ -20,5 +20,7 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<ApiE
 export type User = { id: string; email: string; displayName: string; avatarUrl?: string | null; modes: string[]; clientProfile?: unknown; freelancerProfile?: unknown };
 export type Category = { id: string; name: string; slug: string; skills: { id: string; name: string; slug: string }[] };
 export type Job = { id: string; title: string; description: string; workType: "FIXED_PRICE" | "HOURLY"; currency: "USD" | "MMK"; budgetMinMinor: number; budgetMaxMinor: number; experienceLevel: string; status?: string; estimatedDuration?: string | null; publishedAt: string; category: Category; skills: { skill: { name: string; slug: string } }[]; client: { displayName: string; country?: string | null }; _count?: { proposals: number } };
+export type Proposal = { id: string; status: string; amountMinor: number; currency: "USD" | "MMK"; job: Pick<Job, "id" | "title" | "currency" | "budgetMinMinor" | "budgetMaxMinor">; contract?: { id: string; status: string } | null };
+export type Contract = { id: string; status: string; job: Pick<Job, "id" | "title"> };
 
 export const money = (minor: number, currency: "USD" | "MMK") => new Intl.NumberFormat("en-US", { style: "currency", currency, minimumFractionDigits: currency === "USD" ? 2 : 0, maximumFractionDigits: currency === "USD" ? 2 : 0 }).format(currency === "USD" ? minor / 100 : minor);
