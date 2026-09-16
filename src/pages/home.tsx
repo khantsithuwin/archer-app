@@ -1,12 +1,52 @@
-import { ArrowRight, Check, PenLine, Search, ShieldCheck, Sparkles, UsersRound } from "lucide-react";
+import { ArrowRight, BriefcaseBusiness, Check, ClipboardCheck, MessageSquareText, Search, Sparkles, UsersRound } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { api, type Job } from "@/lib/api";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { JobCard } from "@/components/job-card";
+import { useCurrentUser } from "@/components/layout";
 
 export function HomePage() {
-  const { data } = useQuery({ queryKey: ["featured-jobs"], queryFn: async () => (await api<Job[]>("/jobs?limit=3&sort=newest")).data });
-  return <><section className="hero"><div className="hero-copy"><div className="eyebrow"><Sparkles size={15} /> A better way to get work moving</div><h1>Find the right people for the work that matters.</h1><p>Archer brings ambitious clients and independent talent together—without the noise. Clear briefs, thoughtful proposals, work you can be proud of.</p><div className="hero-actions"><Button className="button-large" onClick={() => { window.location.href = "/jobs"; }}>Explore opportunities <ArrowRight size={17} /></Button><Link to="/login" className="hero-secondary">I’m hiring <ArrowRight size={16} /></Link></div><div className="trust-row"><span><Check size={14} /> Curated talent</span><span><Check size={14} /> USD & MMK</span><span><Check size={14} /> No platform fees yet</span></div></div><div className="hero-art"><div className="art-orbit orbit-one" /><div className="art-orbit orbit-two" /><div className="art-card art-main"><span className="art-kicker">Featured project</span><strong>Brand identity for a new chapter</strong><div className="art-person"><span className="avatar avatar-orange">M</span><span><b>May Thu</b><small>Brand designer · Yangon</small></span><span className="art-rating">★ 4.9</span></div></div><div className="art-card art-note"><span className="note-icon"><ShieldCheck size={17} /></span><span><b>Work with confidence</b><small>Clear milestones, visible progress</small></span></div><div className="art-line">↗</div></div></section><section className="section section-cream"><div className="section-heading"><div><span className="eyebrow">A focused marketplace</span><h2>Work that fits your ambition.</h2></div><Link to="/jobs" className="view-all">View all jobs <ArrowRight size={16} /></Link></div><div className="job-grid">{data?.map((job) => <JobCard key={job.id} job={job} />) ?? [1, 2, 3].map((key) => <Card className="skeleton-card" key={key} />)}</div></section><section className="section how-section"><div className="section-heading centered"><div><span className="eyebrow">Simple by design</span><h2>From first brief to final delivery.</h2></div></div><div className="how-grid"><Card><span className="step-number">01</span><Search size={22} /><h3>Discover</h3><p>Search open roles or meet specialists who understand your kind of work.</p></Card><Card><span className="step-number">02</span><PenLine size={22} /><h3>Align</h3><p>Share a clear brief, compare thoughtful proposals, and agree on milestones.</p></Card><Card><span className="step-number">03</span><UsersRound size={22} /><h3>Deliver</h3><p>Keep the work visible, the conversation open, and the next step obvious.</p></Card></div></section></>;
+  const { data: user } = useCurrentUser();
+  const entryPath = user ? "/dashboard" : "/login";
+
+  return <>
+    <section className="hero">
+      <div className="hero-copy">
+        <span className="eyebrow"><span className="eyebrow-dot" /> Independent work, made clearer</span>
+        <h1>Great work starts<br />with the <span>right connection.</span></h1>
+        <p>Archer is a thoughtful place for independent talent and ambitious teams to meet, agree on the work, and move forward together.</p>
+        <div className="hero-actions"><Link className="button button-large" to={entryPath}>Get started <ArrowRight size={17} /></Link><a className="button button-outline button-large" href="#how-it-works">See how it works</a></div>
+        <div className="hero-proof"><span><Check size={15} /> Clear briefs and proposals</span><span><Check size={15} /> Project budgets in USD and MMK</span></div>
+      </div>
+      <div className="hero-visual" aria-label="Overview of the Archer workflow">
+        <div className="hero-visual-top"><span className="live-indicator" /> THE ARCHER WORKFLOW <span>01 / 03</span></div>
+        <div className="hero-preview">
+          <div className="preview-header"><span className="preview-icon"><Sparkles size={20} /></span><span className="preview-label">BUILT FOR BETTER COLLABORATION</span></div>
+          <h2>A clearer path from idea to outcome.</h2>
+          <p>Keep the important parts of working together visible from the first conversation to the final handoff.</p>
+          <div className="workflow-steps"><div><span>01</span><strong>Share the brief</strong><Check size={15} /></div><div><span>02</span><strong>Start a conversation</strong><Check size={15} /></div><div><span>03</span><strong>Move the work forward</strong><ArrowRight size={16} /></div></div>
+          <div className="preview-footer"><span><small>ONE SHARED PROCESS</small><strong>For teams and independent talent</strong></span><span className="preview-arrow"><ArrowRight size={20} /></span></div>
+        </div>
+        <div className="visual-caption"><span className="caption-line" /> Good work deserves a better beginning.</div>
+      </div>
+    </section>
+
+    <section className="value-strip" aria-label="Archer principles"><span>Built for clear collaboration</span><span>Thoughtful proposals</span><span>Visible project progress</span></section>
+
+    <section className="section audience-section">
+      <div className="section-heading"><div><span className="eyebrow">A better way to work</span><h2>Built for both sides of the work.</h2><p>Whether you’re finding someone or finding your next project, clarity makes all the difference.</p></div></div>
+      <div className="audience-grid">
+        <div className="audience-card"><span className="audience-icon"><BriefcaseBusiness size={23} /></span><h3>For clients</h3><p>Describe what you need, compare thoughtful proposals, and keep project progress in one place.</p><div className="audience-points"><span><Check size={15} /> Share a clear project brief</span><span><Check size={15} /> Review relevant proposals</span><span><Check size={15} /> Track agreed milestones</span></div><Link to={entryPath} className="view-all">Start a project <ArrowRight size={16} /></Link></div>
+        <div className="audience-card"><span className="audience-icon"><UsersRound size={23} /></span><h3>For freelancers</h3><p>Discover work that fits your skills, make your case, and stay aligned from agreement to delivery.</p><div className="audience-points"><span><Check size={15} /> Find relevant opportunities</span><span><Check size={15} /> Send your best proposal</span><span><Check size={15} /> Manage active work</span></div><Link to={entryPath} className="view-all">Find your next project <ArrowRight size={16} /></Link></div>
+      </div>
+    </section>
+
+    <section className="section process-section" id="how-it-works">
+      <div className="section-heading"><div><span className="eyebrow">How Archer works</span><h2>From first conversation to finished work.</h2></div></div>
+      <div className="process-grid">
+        <div className="process-item"><span className="process-number">01</span><Search size={23} /><h3>Discover</h3><p>Find the right people and projects within a focused workspace.</p></div>
+        <div className="process-item"><span className="process-number">02</span><MessageSquareText size={23} /><h3>Connect</h3><p>Start with a clear brief, share a thoughtful proposal, and agree on the scope.</p></div>
+        <div className="process-item"><span className="process-number">03</span><ClipboardCheck size={23} /><h3>Deliver</h3><p>Track the work, review milestones, and keep the next step visible.</p></div>
+      </div>
+    </section>
+
+    <section className="closing-section"><div><span className="eyebrow">Ready when you are</span><h2>Make room for better work.</h2><p>Join a marketplace built around the quality of the collaboration.</p></div><Link className="button button-light button-large" to={entryPath}>Enter Archer <ArrowRight size={17} /></Link></section>
+  </>;
 }

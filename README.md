@@ -14,7 +14,9 @@ The app expects the API at `http://localhost:4000/api/v1` by default. Start the 
 
 ## Included flows
 
-- Browse and filter seeded opportunities in USD or MMK
+- Public landing page and sign-in, with no job listings before sign-in
+- Signed-in sidebar workspace with browsable USD or MMK opportunities
+- Sign out to return to the public landing page
 - View a full job brief and budget details
 - Sign in with JWT-backed demo accounts
 - Client workspace with job creation draft flow
