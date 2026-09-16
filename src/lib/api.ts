@@ -17,7 +17,9 @@ export async function api<T>(path: string, init: RequestInit = {}): Promise<ApiE
   return body;
 }
 
-export type User = { id: string; email: string; displayName: string; avatarUrl?: string | null; modes: string[]; clientProfile?: unknown; freelancerProfile?: unknown };
+export type ClientProfile = { companyName?: string | null; overview?: string | null; industry?: string | null; website?: string | null; isCompany: boolean };
+export type FreelancerProfile = { username: string; title: string; overview: string; hourlyRateMinor?: number | null; rateCurrency?: "USD" | "MMK" | null; experienceLevel: "ENTRY" | "INTERMEDIATE" | "EXPERT"; availability: "AVAILABLE" | "LIMITED" | "UNAVAILABLE"; skills?: { skillId: string; skill: { id: string; name: string } }[] };
+export type User = { id: string; email: string; displayName: string; avatarUrl?: string | null; modes: string[]; clientProfile?: ClientProfile | null; freelancerProfile?: FreelancerProfile | null };
 export function normalizeUser(user: Omit<User, "modes"> & { modes: (string | { mode: string })[] }): User { return { ...user, modes: user.modes.map((mode) => typeof mode === "string" ? mode : mode.mode) }; }
 export type Category = { id: string; name: string; slug: string; skills: { id: string; name: string; slug: string }[] };
 export type Job = { id: string; title: string; description: string; workType: "FIXED_PRICE" | "HOURLY"; currency: "USD" | "MMK"; budgetMinMinor: number; budgetMaxMinor: number; experienceLevel: string; status?: string; estimatedDuration?: string | null; publishedAt: string; category: Category; skills: { skill: { name: string; slug: string } }[]; client: { displayName: string; country?: string | null }; _count?: { proposals: number } };

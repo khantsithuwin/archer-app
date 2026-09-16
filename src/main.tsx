@@ -7,6 +7,8 @@ import { HomePage } from "@/pages/home";
 import { JobsPage } from "@/pages/jobs";
 import { JobDetailPage } from "@/pages/job-detail";
 import { LoginPage } from "@/pages/login";
+import { SignUpPage } from "@/pages/signup";
+import { ProfilePage } from "@/pages/profile";
 import { DashboardPage } from "@/pages/dashboard";
 import { CreateJobPage } from "@/pages/create-job";
 import { ProposalsPage } from "@/pages/proposals";
@@ -32,10 +34,21 @@ function LandingRoute() {
   return user ? <Navigate to="/dashboard" replace /> : <HomePage />;
 }
 
+function GuestOnly() {
+  const { data: user, isLoading } = useCurrentUser();
+  if (authState.token && isLoading) return <section className="page-section"><div className="detail-skeleton" aria-label="Checking session" /></section>;
+  return user ? <Navigate to="/dashboard" replace /> : <Outlet />;
+}
+
 const router = createBrowserRouter([{ path: "/", element: <Layout />, children: [
   { index: true, element: <LandingRoute /> },
-  { path: "login", element: <LoginPage /> },
+  { element: <GuestOnly />, children: [
+    { path: "login", element: <LoginPage /> },
+    { path: "signup", element: <SignUpPage /> },
+  ] },
   { element: <RequireAuth />, children: [
+    { path: "onboarding", element: <ProfilePage onboarding /> },
+    { path: "profile", element: <ProfilePage /> },
     { path: "jobs", element: <JobsPage /> },
     { path: "jobs/:jobId", element: <JobDetailPage /> },
     { path: "dashboard", element: <DashboardPage /> },

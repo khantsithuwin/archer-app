@@ -14,13 +14,25 @@ The app expects the API at `http://localhost:4000/api/v1` by default. Start the 
 
 ## Included flows
 
-- Public landing page and sign-in, with no job listings before sign-in
+- Public landing page, sign-up, and sign-in, with no job listings before sign-in
+- Client, freelancer, or both-role registration followed by profile setup; profile editing remains available from the sidebar
 - Signed-in sidebar workspace with browsable USD or MMK opportunities
 - Sign out to return to the public landing page
 - View a full job brief and budget details
 - Sign in with JWT-backed demo accounts
 - Client workspace with job creation draft flow
 - Responsive Archer brand UI built with React Router, TanStack Query, and shadcn-compatible primitives
+
+Profile setup asks clients for a short overview and freelancers for a username, title, overview, and skill. An hourly rate is optional; USD rates are entered in dollars and cents, while MMK rates use whole kyat. You can skip setup and return to it from the workspace reminder or Profile link.
+
+## Quality checks
+
+```bash
+npm run typecheck
+npm run lint
+npm test
+npm run build
+```
 
 ## Demo accounts
 

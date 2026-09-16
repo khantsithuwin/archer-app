@@ -4,7 +4,7 @@ import { useCurrentUser } from "@/components/layout";
 
 export function HomePage() {
   const { data: user } = useCurrentUser();
-  const entryPath = user ? "/dashboard" : "/login";
+  const entryPath = user ? "/dashboard" : "/signup";
 
   return <>
     <section className="hero">
@@ -33,8 +33,8 @@ export function HomePage() {
     <section className="section audience-section">
       <div className="section-heading"><div><span className="eyebrow">A better way to work</span><h2>Built for both sides of the work.</h2><p>Whether you’re finding someone or finding your next project, clarity makes all the difference.</p></div></div>
       <div className="audience-grid">
-        <div className="audience-card"><span className="audience-icon"><BriefcaseBusiness size={23} /></span><h3>For clients</h3><p>Describe what you need, compare thoughtful proposals, and keep project progress in one place.</p><div className="audience-points"><span><Check size={15} /> Share a clear project brief</span><span><Check size={15} /> Review relevant proposals</span><span><Check size={15} /> Track agreed milestones</span></div><Link to={entryPath} className="view-all">Start a project <ArrowRight size={16} /></Link></div>
-        <div className="audience-card"><span className="audience-icon"><UsersRound size={23} /></span><h3>For freelancers</h3><p>Discover work that fits your skills, make your case, and stay aligned from agreement to delivery.</p><div className="audience-points"><span><Check size={15} /> Find relevant opportunities</span><span><Check size={15} /> Send your best proposal</span><span><Check size={15} /> Manage active work</span></div><Link to={entryPath} className="view-all">Find your next project <ArrowRight size={16} /></Link></div>
+        <div className="audience-card"><span className="audience-icon"><BriefcaseBusiness size={23} /></span><h3>For clients</h3><p>Describe what you need, compare thoughtful proposals, and keep project progress in one place.</p><div className="audience-points"><span><Check size={15} /> Share a clear project brief</span><span><Check size={15} /> Review relevant proposals</span><span><Check size={15} /> Track agreed milestones</span></div><Link to={user ? "/dashboard" : "/signup?role=client"} className="view-all">Start a project <ArrowRight size={16} /></Link></div>
+        <div className="audience-card"><span className="audience-icon"><UsersRound size={23} /></span><h3>For freelancers</h3><p>Discover work that fits your skills, make your case, and stay aligned from agreement to delivery.</p><div className="audience-points"><span><Check size={15} /> Find relevant opportunities</span><span><Check size={15} /> Send your best proposal</span><span><Check size={15} /> Manage active work</span></div><Link to={user ? "/dashboard" : "/signup?role=freelancer"} className="view-all">Find your next project <ArrowRight size={16} /></Link></div>
       </div>
     </section>
 

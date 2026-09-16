@@ -213,6 +213,27 @@ input:focus, textarea:focus, select:focus { border-color: var(--teal); box-shado
 .demo-actions button { flex: 1; padding: 8px 9px; border: 1px solid #c7dbd8; border-radius: 6px; background: #fff; color: var(--teal-dark); font-size: 11px; font-weight: 700; }
 .demo-actions button:hover { border-color: var(--teal); background: #e5f1ee; }
 .form-error { margin: 0; color: #b3453b; font-size: 12px; }
+.field-error { color: #b3453b; font-size: 11px; font-weight: 500; }
+.auth-switch { margin: 20px 0 0; color: var(--muted); font-size: 12px; text-align: center; }
+.auth-switch a { color: var(--teal-dark); font-weight: 800; text-decoration: none; }
+.auth-switch a:hover { text-decoration: underline; }
+.signup-page { grid-template-columns: minmax(0, 1fr) minmax(500px, 610px); gap: 65px; align-items: start; padding-top: 78px; padding-bottom: 88px; }
+.signup-page .auth-intro { padding-top: 75px; }
+.signup-benefits { display: grid; gap: 0; max-width: 390px; margin-top: 40px; border-top: 1px solid var(--line); }
+.signup-benefits span { display: flex; gap: 20px; padding: 17px 4px; border-bottom: 1px solid var(--line); color: var(--teal); font-size: 12px; font-weight: 800; }
+.signup-benefits strong { color: var(--ink); font-size: 14px; font-weight: 650; }
+.signup-card { max-width: none; }
+.role-fieldset { min-width: 0; padding: 0; margin: 0; border: 0; }
+.role-fieldset legend { padding: 0; margin-bottom: 8px; color: var(--ink); font-size: 12px; font-weight: 700; }
+.role-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.role-option { position: relative; display: flex; flex-direction: column; align-items: start; gap: 11px; min-height: 131px; padding: 14px 12px; border: 1px solid var(--line); border-radius: 9px; background: #fff; cursor: pointer; }
+.role-option:hover, .role-option:has(input:checked) { border-color: var(--teal); background: #f1f8f6; }
+.role-option:has(input:focus-visible) { outline: 3px solid rgba(23,103,107,.25); outline-offset: 2px; }
+.role-option input { position: absolute; width: 1px; height: 1px; padding: 0; opacity: 0; }
+.role-option-icon { display: grid; place-items: center; width: 31px; height: 31px; border-radius: 7px; background: var(--teal-pale); color: var(--teal-dark); }
+.role-option > span:last-child { display: grid; gap: 4px; }
+.role-option strong { font-size: 12px; }
+.role-option small { color: var(--muted); font-size: 10px; font-weight: 500; line-height: 1.45; }
 .proposal-form-card { padding: 22px; }
 .proposal-form-card .section-heading { align-items: start; margin-bottom: 15px; }
 .proposal-form-card h3 { margin: 7px 0 0; font-size: 21px; }
@@ -254,6 +275,29 @@ input:focus, textarea:focus, select:focus { border-color: var(--teal); box-shado
 .job-form-card { padding: 30px; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .currency-note { display: flex; align-items: center; gap: 6px; margin: 0; color: var(--muted); font-size: 11px; }
+.profile-page { padding-top: 50px; padding-bottom: 85px; }
+.profile-page form { gap: 18px; }
+.profile-panel { display: grid; gap: 20px; padding: 28px; }
+.profile-panel-heading { display: flex; align-items: center; gap: 13px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.profile-panel-heading h2 { margin: 0 0 4px; font-size: 21px; }
+.profile-panel-heading p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.profile-panel textarea { min-height: 110px; resize: vertical; }
+.checkbox-label { display: flex; align-items: center; gap: 9px; width: fit-content; font-size: 12px; cursor: pointer; }
+.checkbox-label input { width: 16px; height: 16px; padding: 0; accent-color: var(--teal); }
+.optional { color: var(--muted); font-size: 10px; font-weight: 500; }
+.selected-skills { display: flex; flex-wrap: wrap; gap: 8px; margin-top: -10px; }
+.selected-skills > span { display: inline-flex; align-items: center; gap: 7px; padding: 7px 8px 7px 11px; border-radius: 6px; background: var(--teal-pale); color: var(--teal-dark); font-size: 11px; font-weight: 700; }
+.selected-skills button { display: grid; place-items: center; width: 18px; height: 18px; padding: 0; border: 0; border-radius: 4px; background: transparent; color: inherit; }
+.selected-skills button:hover { background: #d7eae6; }
+.inline-error { color: #b3453b; font-size: 12px; }
+.inline-error button { padding: 0; border: 0; background: transparent; color: inherit; font-weight: 800; text-decoration: underline; }
+.profile-actions { display: flex; align-items: center; gap: 20px; padding-top: 4px; }
+.profile-success { display: flex; align-items: center; gap: 7px; margin: 0; color: #366f4c; font-size: 12px; font-weight: 700; }
+.profile-reminder { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 17px 21px; margin-bottom: 25px; border: 1px solid #c8ddd9; border-radius: 9px; background: #f1f8f6; }
+.profile-reminder strong { font-size: 13px; }
+.profile-reminder p { margin: 5px 0 0; color: var(--muted); font-size: 12px; }
+.profile-reminder a { display: inline-flex; align-items: center; gap: 7px; flex: 0 0 auto; color: var(--teal-dark); font-size: 12px; font-weight: 800; text-decoration: none; }
+.profile-reminder a:hover { text-decoration: underline; }
 .form-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 7px; }
 .form-footer .muted { display: inline-flex; align-items: center; gap: 5px; }
 .empty-state { padding: 70px 20px; text-align: center; color: var(--muted); }
@@ -339,6 +383,9 @@ input:focus, textarea:focus, select:focus { border-color: var(--teal); box-shado
   .apply-panel { max-width: 450px; }
   .auth-page { grid-template-columns: 1fr; gap: 32px; min-height: 0; }
   .auth-card { max-width: 480px; }
+  .signup-page { grid-template-columns: 1fr; gap: 36px; }
+  .signup-page .auth-intro { padding-top: 0; }
+  .signup-card { max-width: 610px; }
 }
 @media (max-width: 1050px) {
   .public-shell .hero { grid-template-columns: 1fr; }
@@ -411,6 +458,13 @@ input:focus, textarea:focus, select:focus { border-color: var(--teal); box-shado
   .auth-page { padding: 55px 19px 75px; }
   .auth-intro h1 { font-size: 45px; }
   .auth-card { padding: 22px; }
+  .signup-page { padding-top: 55px; }
+  .signup-benefits { margin-top: 25px; }
+  .role-grid { grid-template-columns: 1fr; }
+  .role-option { flex-direction: row; align-items: center; min-height: 68px; }
+  .profile-page { padding-top: 42px; }
+  .profile-panel { padding: 21px; }
+  .profile-reminder { align-items: start; flex-direction: column; gap: 12px; }
   .dashboard { padding: 42px 19px 75px; }
   .dashboard-hero h1 { font-size: 34px; }
   .stat-grid { gap: 10px; margin-bottom: 47px; }

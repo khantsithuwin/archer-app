@@ -7,6 +7,7 @@ import { useCurrentUser } from "@/components/layout";
 export function DashboardPage() {
   const { data: user, isLoading: userLoading } = useCurrentUser();
   const isClient = user?.modes.includes("CLIENT");
+  const needsProfile = Boolean(user && ((user.modes.includes("CLIENT") && !user.clientProfile) || (user.modes.includes("FREELANCER") && !user.freelancerProfile)));
   const { data: jobs, isLoading: jobsLoading, isError: jobsError } = useQuery({
     queryKey: ["my-jobs"],
     queryFn: async () => (await api<Job[]>("/client/jobs")).data,
@@ -37,6 +38,8 @@ export function DashboardPage() {
       <div><span className="eyebrow">Workspace overview</span><h1>Good morning, {user?.displayName.split(" ")[0] ?? "there"}.</h1><p>Here’s a clear view of what’s happening with your work.</p></div>
       {isClient && <Link className="button" to="/client/jobs/new"><Plus size={17} /> Post a job</Link>}
     </div>
+
+    {needsProfile && <div className="profile-reminder"><div><strong>Make a better first impression.</strong><p>Complete your profile so clients and freelancers know who they’re working with.</p></div><Link to="/onboarding">Complete profile <ArrowRight size={16} /></Link></div>}
 
     <div className="stat-grid">
       <div className="stat-card"><span className="stat-icon"><BriefcaseBusiness size={19} /></span><span className="stat-label">{isClient ? "Jobs posted" : "Proposals sent"}</span><strong>{loading ? "—" : primaryCount}</strong><span className="stat-caption">{isClient ? "Across all statuses" : "Your submitted applications"}</span></div>
