@@ -273,6 +273,27 @@ input:focus, textarea:focus, select:focus { border-color: var(--teal); box-shado
 .narrow-page { max-width: 850px; }
 .form-heading { margin: 20px 0 32px; }
 .job-form-card { padding: 30px; }
+.job-form-card form { gap: 19px; }
+.job-form-actions { display: flex; align-items: center; gap: 9px; }
+.client-job-page { padding-top: 50px; padding-bottom: 85px; }
+.client-job-overview { display: grid; gap: 23px; padding: 29px; }
+.client-job-overview-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.client-job-overview-top > span:last-child { color: var(--muted); font-size: 12px; font-weight: 700; }
+.client-job-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 24px; padding: 22px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.client-job-facts > div { display: grid; gap: 5px; }
+.client-job-facts small { color: var(--muted); font-size: 11px; }
+.client-job-facts strong { font-size: 15px; text-transform: capitalize; }
+.client-job-description { margin: 0; color: #52666e; font-size: 14px; line-height: 1.7; white-space: pre-line; }
+.client-job-overview .selected-skills { margin-top: 0; }
+.client-job-guidance { margin: 0; padding: 13px 15px; border-radius: 7px; background: var(--teal-pale); color: var(--teal-dark); font-size: 12px; line-height: 1.5; }
+.client-job-actions { display: flex; flex-wrap: wrap; gap: 10px; margin: 21px 0; }
+.client-job-confirm { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 19px; margin: 17px 0; border-color: #ebd6c6; background: #fffaf5; }
+.client-job-confirm strong { font-size: 13px; }
+.client-job-confirm p { margin: 5px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+.client-job-confirm > div:last-child { display: flex; flex: 0 0 auto; gap: 8px; }
+.client-job-edit { margin: 34px 0; }
+.client-job-edit .section-heading { margin-bottom: 16px; }
+.client-job-edit .section-heading h2 { margin-bottom: 0; }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .currency-note { display: flex; align-items: center; gap: 6px; margin: 0; color: var(--muted); font-size: 11px; }
 .profile-page { padding-top: 50px; padding-bottom: 85px; }
@@ -458,6 +479,11 @@ input:focus, textarea:focus, select:focus { border-color: var(--teal); box-shado
   .auth-page { padding: 55px 19px 75px; }
   .auth-intro h1 { font-size: 45px; }
   .auth-card { padding: 22px; }
+  .job-form-card, .client-job-overview { padding: 21px; }
+  .job-form-actions { width: 100%; justify-content: flex-end; }
+  .client-job-page { padding-top: 42px; }
+  .client-job-confirm { align-items: stretch; flex-direction: column; }
+  .client-job-confirm > div:last-child { flex-wrap: wrap; }
   .signup-page { padding-top: 55px; }
   .signup-benefits { margin-top: 25px; }
   .role-grid { grid-template-columns: 1fr; }

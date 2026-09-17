@@ -1,17 +1,24 @@
-import { ArrowLeft, ArrowRight, Check, CircleDollarSign } from "lucide-react";
-import { useState } from "react";
+import { ArrowLeft } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { api, type Category, type Job } from "@/lib/api";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCurrentUser } from "@/components/layout";
+import { JobForm } from "@/components/job-form";
+import { api } from "@/lib/api";
+import type { jobFormPayload } from "@/lib/job-form";
 
 export function CreateJobPage() {
   const navigate = useNavigate();
-  const { data: categories } = useQuery({ queryKey: ["categories"], queryFn: async () => (await api<Category[]>("/categories")).data });
-  const [form, setForm] = useState({ title: "", description: "", categoryId: "", skillId: "", currency: "USD", budgetMinMinor: "", budgetMaxMinor: "", experienceLevel: "INTERMEDIATE" });
-  const mutation = useMutation({ mutationFn: async () => { const response = await api<Job>("/jobs", { method: "POST", body: JSON.stringify({ ...form, budgetMinMinor: Number(form.budgetMinMinor) * (form.currency === "USD" ? 100 : 1), budgetMaxMinor: Number(form.budgetMaxMinor) * (form.currency === "USD" ? 100 : 1), skillIds: [form.skillId] }) }); return response.data; }, onSuccess: (job) => navigate(`/jobs/${job.id}`) });
-  const selectedCategory = categories?.find((category) => category.id === form.categoryId);
-  const update = (key: keyof typeof form, value: string) => setForm((current) => ({ ...current, [key]: value, ...(key === "categoryId" ? { skillId: "" } : {}) }));
-  return <section className="page-section narrow-page"><Link to="/dashboard" className="back-link"><ArrowLeft size={16} /> Back to workspace</Link><div className="form-heading"><span className="eyebrow">New opportunity</span><h1>What would you like to make?</h1><p>A clear brief attracts the right kind of attention. You can save this as a draft and come back to it.</p></div><Card className="job-form-card"><form onSubmit={(event) => { event.preventDefault(); mutation.mutate(); }}><label>Project title<input value={form.title} onChange={(event) => update("title", event.target.value)} placeholder="e.g. Build a customer research dashboard" required minLength={8} /></label><label>Tell us about the project<textarea value={form.description} onChange={(event) => update("description", event.target.value)} placeholder="What are you trying to achieve? What does a great outcome look like?" required minLength={40} rows={7} /></label><div className="form-grid"><label>Category<select value={form.categoryId} onChange={(event) => update("categoryId", event.target.value)} required><option value="">Select category</option>{categories?.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}</select></label><label>Primary skill<select value={form.skillId} onChange={(event) => update("skillId", event.target.value)} required disabled={!selectedCategory}><option value="">Select skill</option>{selectedCategory?.skills.map((skill) => <option key={skill.id} value={skill.id}>{skill.name}</option>)}</select></label></div><div className="form-grid"><label>Currency<select value={form.currency} onChange={(event) => update("currency", event.target.value)}><option value="USD">USD</option><option value="MMK">MMK</option></select></label><label>Experience level<select value={form.experienceLevel} onChange={(event) => update("experienceLevel", event.target.value)}><option value="ENTRY">Entry</option><option value="INTERMEDIATE">Intermediate</option><option value="EXPERT">Expert</option></select></label></div><div className="form-grid"><label>Budget from<input type="number" min="1" value={form.budgetMinMinor} onChange={(event) => update("budgetMinMinor", event.target.value)} placeholder={form.currency === "USD" ? "500" : "500000"} required /></label><label>Budget to<input type="number" min="1" value={form.budgetMaxMinor} onChange={(event) => update("budgetMaxMinor", event.target.value)} placeholder={form.currency === "USD" ? "1500" : "1500000"} required /></label></div><p className="currency-note"><CircleDollarSign size={16} /> {form.currency === "USD" ? "USD budgets are entered in dollars and saved as cents." : "MMK budgets are entered and saved as whole kyat."}</p>{mutation.error && <p className="form-error">{mutation.error.message}</p>}<div className="form-footer"><span className="muted"><Check size={15} /> No payment is taken when you post.</span><Button type="submit" disabled={mutation.isPending}>{mutation.isPending ? "Creating…" : "Create draft"}<ArrowRight size={16} /></Button></div></form></Card></section>;
+  const queryClient = useQueryClient();
+  const { data: user } = useCurrentUser();
+  const mutation = useMutation({
+    mutationFn: async (payload: ReturnType<typeof jobFormPayload>) => (await api<{ id: string }>("/jobs", { method: "POST", body: JSON.stringify(payload) })).data,
+    onSuccess: async (job) => {
+      await queryClient.invalidateQueries({ queryKey: ["my-jobs"] });
+      navigate(`/client/jobs/${job.id}`);
+    },
+  });
+
+  if (!user?.modes.includes("CLIENT")) return <section className="page-section narrow-page"><div className="empty-card"><h1>Client access required</h1><p>Only client accounts can post jobs.</p><Link to="/dashboard" className="button">Back to workspace</Link></div></section>;
+
+  return <section className="page-section narrow-page"><Link to="/dashboard" className="back-link"><ArrowLeft size={16} /> Back to workspace</Link><div className="form-heading"><span className="eyebrow">New opportunity</span><h1>What would you like to make?</h1><p>Start with a clear brief. Your job stays private as a draft until you publish it.</p></div><JobForm onSave={(payload) => mutation.mutate(payload)} busy={mutation.isPending} error={mutation.error?.message} submitLabel="Create draft" /></section>;
 }

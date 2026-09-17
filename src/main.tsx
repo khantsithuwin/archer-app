@@ -11,6 +11,7 @@ import { SignUpPage } from "@/pages/signup";
 import { ProfilePage } from "@/pages/profile";
 import { DashboardPage } from "@/pages/dashboard";
 import { CreateJobPage } from "@/pages/create-job";
+import { ClientJobPage } from "@/pages/client-job";
 import { ProposalsPage } from "@/pages/proposals";
 import { ContractDetailPage, ContractsPage } from "@/pages/contracts";
 import "./index.css";
@@ -53,6 +54,7 @@ const router = createBrowserRouter([{ path: "/", element: <Layout />, children: 
     { path: "jobs/:jobId", element: <JobDetailPage /> },
     { path: "dashboard", element: <DashboardPage /> },
     { path: "client/jobs/new", element: <CreateJobPage /> },
+    { path: "client/jobs/:jobId", element: <ClientJobPage /> },
     { path: "client/jobs/:jobId/proposals", element: <ProposalsPage /> },
     { path: "contracts", element: <ContractsPage /> },
     { path: "contracts/:contractId", element: <ContractDetailPage /> },

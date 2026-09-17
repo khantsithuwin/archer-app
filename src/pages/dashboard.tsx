@@ -1,7 +1,7 @@
 import { ArrowRight, BriefcaseBusiness, FileText, Plus, Send } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { api, money, type Contract, type Job, type Proposal } from "@/lib/api";
+import { api, money, type Contract, type OwnedJob, type Proposal } from "@/lib/api";
 import { useCurrentUser } from "@/components/layout";
 
 export function DashboardPage() {
@@ -10,7 +10,7 @@ export function DashboardPage() {
   const needsProfile = Boolean(user && ((user.modes.includes("CLIENT") && !user.clientProfile) || (user.modes.includes("FREELANCER") && !user.freelancerProfile)));
   const { data: jobs, isLoading: jobsLoading, isError: jobsError } = useQuery({
     queryKey: ["my-jobs"],
-    queryFn: async () => (await api<Job[]>("/client/jobs")).data,
+    queryFn: async () => (await api<OwnedJob[]>("/client/jobs")).data,
     enabled: Boolean(user && isClient),
   });
   const { data: proposals, isLoading: proposalsLoading, isError: proposalsError } = useQuery({
@@ -51,7 +51,7 @@ export function DashboardPage() {
       <div className="dashboard-main">
         <div className="section-heading"><div><span className="eyebrow">{isClient ? "Client activity" : "Freelancer activity"}</span><h2>{isClient ? "Your jobs" : "Your proposals"}</h2></div>{isClient ? <Link className="view-all" to="/client/jobs/new">New job <ArrowRight size={16} /></Link> : <Link className="view-all" to="/jobs">Browse work <ArrowRight size={16} /></Link>}</div>
         {(jobsError || proposalsError) ? <div className="empty-card"><h3>Activity is unavailable</h3><p>Please refresh this page to try again.</p></div>
-          : isClient ? jobs?.length ? <div className="activity-list">{jobs.map((job) => <div className="activity-row" key={job.id}><div className="activity-copy"><span className={"status status-" + (job.status ?? "DRAFT").toLowerCase()}>{(job.status ?? "DRAFT").replaceAll("_", " ")}</span>{job.status === "DRAFT" ? <strong>{job.title}</strong> : <Link to={`/jobs/${job.id}`}>{job.title}</Link>}<small>{job.category.name} · {job._count?.proposals ?? 0} proposals</small></div><div className="activity-side"><strong>{money(job.budgetMinMinor, job.currency)}</strong><Link to={`/client/jobs/${job.id}/proposals`} aria-label={`Review proposals for ${job.title}`}>Review <ArrowRight size={15} /></Link></div></div>)}</div>
+          : isClient ? jobs?.length ? <div className="activity-list">{jobs.map((job) => <div className="activity-row" key={job.id}><div className="activity-copy"><span className={"status status-" + job.status.toLowerCase()}>{job.status.replaceAll("_", " ")}</span><Link to={`/client/jobs/${job.id}`}>{job.title}</Link><small>{job.category.name} · {job._count.proposals} proposals</small></div><div className="activity-side"><strong>{job.budgetMinMinor != null ? money(job.budgetMinMinor, job.currency) : "Budget not set"}</strong><Link to={`/client/jobs/${job.id}`} aria-label={`Manage ${job.title}`}>Manage <ArrowRight size={15} /></Link></div></div>)}</div>
             : <div className="empty-card"><h3>Your first job starts here</h3><p>Post a clear project brief to start meeting the right talent.</p><Link className="button" to="/client/jobs/new">Post a job</Link></div>
           : proposals?.length ? <div className="activity-list">{proposals.map((proposal) => <div className="activity-row" key={proposal.id}><div className="activity-copy"><span className={"status status-" + proposal.status.toLowerCase()}>{proposal.status.replaceAll("_", " ")}</span><Link to={`/jobs/${proposal.job.id}`}>{proposal.job.title}</Link><small>Proposed {money(proposal.amountMinor, proposal.currency)}</small></div><div className="activity-side">{proposal.contract ? <Link to={`/contracts/${proposal.contract.id}`}>View contract <ArrowRight size={15} /></Link> : <span className="muted">Awaiting update</span>}</div></div>)}</div>
             : <div className="empty-card"><h3>Find a project that fits</h3><p>Explore open opportunities and send your first proposal.</p><Link className="button" to="/jobs">Browse jobs</Link></div>}
