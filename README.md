@@ -22,6 +22,7 @@ The app expects the API at `http://localhost:4000/api/v1` by default. Start the 
 - Sign in with JWT-backed demo accounts
 - Client workspace to create private drafts, edit them, publish to freelancers, review proposals, and close listings
 - Freelancer proposals with exact USD/MMK amounts, editing, status tracking, and withdrawal; clients can shortlist, reject, or accept
+- Contract workspaces for offer acceptance, linked deliverables, milestone feedback, completion, cancellation, disputes, and activity history
 - Responsive Archer brand UI built with React Router, TanStack Query, and shadcn-compatible primitives
 
 Profile setup asks clients for a short overview and freelancers for a username, title, overview, and skill. An hourly rate is optional; USD rates are entered in dollars and cents, while MMK rates use whole kyat. You can skip setup and return to it from the workspace reminder or Profile link.
