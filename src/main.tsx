@@ -13,6 +13,7 @@ import { DashboardPage } from "@/pages/dashboard";
 import { CreateJobPage } from "@/pages/create-job";
 import { ClientJobPage } from "@/pages/client-job";
 import { ProposalsPage } from "@/pages/proposals";
+import { MyProposalPage } from "@/pages/my-proposal";
 import { ContractDetailPage, ContractsPage } from "@/pages/contracts";
 import "./index.css";
 
@@ -56,6 +57,7 @@ const router = createBrowserRouter([{ path: "/", element: <Layout />, children: 
     { path: "client/jobs/new", element: <CreateJobPage /> },
     { path: "client/jobs/:jobId", element: <ClientJobPage /> },
     { path: "client/jobs/:jobId/proposals", element: <ProposalsPage /> },
+    { path: "proposals/:proposalId", element: <MyProposalPage /> },
     { path: "contracts", element: <ContractsPage /> },
     { path: "contracts/:contractId", element: <ContractDetailPage /> },
   ] },
