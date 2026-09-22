@@ -16,6 +16,7 @@ import { ProposalsPage } from "@/pages/proposals";
 import { MyProposalPage } from "@/pages/my-proposal";
 import { ContractDetailPage, ContractsPage } from "@/pages/contracts";
 import { I18nProvider, useI18n } from "@/i18n";
+import { ThemeProvider } from "@/theme";
 import "./index.css";
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 30_000, refetchOnWindowFocus: false } } });
@@ -68,4 +69,4 @@ const router = createBrowserRouter([{ path: "/", element: <Layout />, children: 
   { path: "*", element: <Navigate to="/" replace /> },
 ] }]);
 
-createRoot(document.getElementById("root")!).render(<I18nProvider><QueryClientProvider client={queryClient}><RouterProvider router={router} /></QueryClientProvider></I18nProvider>);
+createRoot(document.getElementById("root")!).render(<ThemeProvider><I18nProvider><QueryClientProvider client={queryClient}><RouterProvider router={router} /></QueryClientProvider></I18nProvider></ThemeProvider>);

@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { ArrowUpRight, Compass, FileText, LayoutDashboard, LogOut, Menu, PanelLeftClose, PanelLeftOpen, Plus, UserRound, X } from "lucide-react";
+import { ArrowUpRight, Compass, FileText, LayoutDashboard, LogOut, Menu, Moon, PanelLeftClose, PanelLeftOpen, Plus, Sun, UserRound, X } from "lucide-react";
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, authState, normalizeUser, type User } from "@/lib/api";
 import { enumLabel, firstGrapheme, useI18n } from "@/i18n";
+import { useTheme } from "@/theme";
 
 export function useCurrentUser() {
   return useQuery({
@@ -21,6 +22,7 @@ function Brand({ linked = false }: { linked?: boolean }) {
 
 export function Layout() {
   const { locale, setLocale, t } = useI18n();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
@@ -48,6 +50,8 @@ export function Layout() {
   };
   const pageLabel = location.pathname.startsWith("/jobs") ? t("nav.findWork") : location.pathname.startsWith("/contracts") ? t("nav.contracts") : location.pathname.startsWith("/client") ? t("nav.clientWorkspace") : location.pathname === "/dashboard" ? t("nav.overview") : location.pathname === "/onboarding" ? t("nav.profileSetup") : location.pathname === "/profile" ? t("nav.profile") : t("nav.welcome");
   const languageSwitch = <label className="language-switch"><span className="sr-only">{t("language.switch")}</span><select aria-label={t("language.switch")} value={locale} onChange={(event) => setLocale(event.target.value as "en" | "my")}><option value="en">EN</option><option value="my">မြန်မာ</option></select></label>;
+  const themeLabel = t(theme === "dark" ? "theme.switchToLight" : "theme.switchToDark");
+  const themeToggle = <button className="theme-toggle" type="button" aria-label={themeLabel} title={themeLabel} onClick={toggleTheme}>{theme === "dark" ? <Sun size={17} /> : <Moon size={17} />}<span className="sr-only">{themeLabel}</span></button>;
 
   return <div className={"app-shell" + (showSidebar ? " workspace-shell" : " public-shell") + (collapsed ? " sidebar-collapsed" : "") + (mobileOpen && showSidebar ? " mobile-nav-open" : "")}>
     {mobileOpen && showSidebar && <button className="sidebar-backdrop" type="button" aria-label={t("nav.close")} onClick={() => setMobileOpen(false)} />}
@@ -66,8 +70,8 @@ export function Layout() {
     </aside>}
 
     <div className="app-content">
-      {checkingWorkspace ? null : showSidebar ? <header className="topbar"><div className="topbar-inner"><button className="mobile-menu-button" type="button" aria-label={t("nav.open")} aria-controls="primary-sidebar" aria-expanded={mobileOpen} onClick={() => setMobileOpen(true)}><Menu size={22} /></button><div className="mobile-brand"><Brand /></div><span className="topbar-context">{pageLabel}</span><div className="top-actions">{languageSwitch}<Link className="header-user" to="/profile"><span className="avatar">{firstGrapheme(user!.displayName, locale).toLocaleUpperCase(locale)}</span><span>{user!.displayName.split(" ")[0]}</span></Link></div></div></header>
-        : <header className="topbar public-topbar"><div className="topbar-inner"><Brand linked /><nav className="public-nav" aria-label={t("nav.howItWorks")}><a href="/#how-it-works">{t("nav.howItWorks")}</a></nav><div className="top-actions">{languageSwitch}{user ? <Link className="public-workspace-link" to="/dashboard">{t("nav.workspace")} <ArrowUpRight size={16} /></Link> : <><Link className="header-signin" to="/login">{t("nav.signIn")}</Link><Link className="button header-cta" to="/signup">{t("nav.getStarted")} <ArrowUpRight size={16} /></Link></>}</div></div></header>}
+      {checkingWorkspace ? null : showSidebar ? <header className="topbar"><div className="topbar-inner"><button className="mobile-menu-button" type="button" aria-label={t("nav.open")} aria-controls="primary-sidebar" aria-expanded={mobileOpen} onClick={() => setMobileOpen(true)}><Menu size={22} /></button><div className="mobile-brand"><Brand /></div><span className="topbar-context">{pageLabel}</span><div className="top-actions">{themeToggle}{languageSwitch}<Link className="header-user" to="/profile"><span className="avatar">{firstGrapheme(user!.displayName, locale).toLocaleUpperCase(locale)}</span><span>{user!.displayName.split(" ")[0]}</span></Link></div></div></header>
+        : <header className="topbar public-topbar"><div className="topbar-inner"><Brand linked /><nav className="public-nav" aria-label={t("nav.howItWorks")}><a href="/#how-it-works">{t("nav.howItWorks")}</a></nav><div className="top-actions">{themeToggle}{languageSwitch}{user ? <Link className="public-workspace-link" to="/dashboard">{t("nav.workspace")} <ArrowUpRight size={16} /></Link> : <><Link className="header-signin" to="/login">{t("nav.signIn")}</Link><Link className="button header-cta" to="/signup">{t("nav.getStarted")} <ArrowUpRight size={16} /></Link></>}</div></div></header>}
       <main><Outlet /></main>
       <footer className="footer"><span>© 2026 Archer</span><span>{t("footer.tagline")}</span></footer>
     </div>

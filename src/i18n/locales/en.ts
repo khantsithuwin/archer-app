@@ -2,6 +2,8 @@ export const en = {
   "language.english": "English",
   "language.burmese": "မြန်မာ",
   "language.switch": "Language",
+  "theme.switchToLight": "Switch to light mode",
+  "theme.switchToDark": "Switch to dark mode",
   "nav.howItWorks": "How it works",
   "nav.workspace": "Go to workspace",
   "nav.signIn": "Sign in",

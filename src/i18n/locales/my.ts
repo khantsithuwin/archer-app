@@ -4,6 +4,8 @@ export const my: Record<TranslationKey, string> = {
   "language.english": "English",
   "language.burmese": "မြန်မာ",
   "language.switch": "ဘာသာစကား",
+  "theme.switchToLight": "အလင်းရောင်ပုံစံသို့ ပြောင်းရန်",
+  "theme.switchToDark": "အမှောင်ပုံစံသို့ ပြောင်းရန်",
   "nav.howItWorks": "အသုံးပြုပုံ",
   "nav.workspace": "အလုပ်ခွင်သို့ သွားရန်",
   "nav.signIn": "အကောင့်ဝင်ရန်",
