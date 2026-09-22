@@ -3,6 +3,7 @@ import { ArrowUpRight, Compass, FileText, LayoutDashboard, LogOut, Menu, PanelLe
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, authState, normalizeUser, type User } from "@/lib/api";
+import { useI18n } from "@/i18n";
 
 export function useCurrentUser() {
   return useQuery({
@@ -19,6 +20,7 @@ function Brand({ linked = false }: { linked?: boolean }) {
 }
 
 export function Layout() {
+  const { locale, setLocale, t } = useI18n();
   const navigate = useNavigate();
   const location = useLocation();
   const queryClient = useQueryClient();
@@ -44,29 +46,30 @@ export function Layout() {
     setMobileOpen(false);
     navigate("/");
   };
-  const pageLabel = location.pathname.startsWith("/jobs") ? "Find work" : location.pathname.startsWith("/contracts") ? "Contracts" : location.pathname.startsWith("/client") ? "Client workspace" : location.pathname === "/dashboard" ? "Overview" : location.pathname === "/onboarding" ? "Profile setup" : location.pathname === "/profile" ? "Profile" : "Welcome";
+  const pageLabel = location.pathname.startsWith("/jobs") ? t("nav.findWork") : location.pathname.startsWith("/contracts") ? t("nav.contracts") : location.pathname.startsWith("/client") ? t("nav.clientWorkspace") : location.pathname === "/dashboard" ? t("nav.overview") : location.pathname === "/onboarding" ? t("nav.profileSetup") : location.pathname === "/profile" ? t("nav.profile") : t("nav.welcome");
+  const languageSwitch = <label className="language-switch"><span className="sr-only">{t("language.switch")}</span><select aria-label={t("language.switch")} value={locale} onChange={(event) => setLocale(event.target.value as "en" | "my")}><option value="en">EN</option><option value="my">မြန်မာ</option></select></label>;
 
   return <div className={"app-shell" + (showSidebar ? " workspace-shell" : " public-shell") + (collapsed ? " sidebar-collapsed" : "") + (mobileOpen && showSidebar ? " mobile-nav-open" : "")}>
-    {mobileOpen && showSidebar && <button className="sidebar-backdrop" type="button" aria-label="Close navigation" onClick={() => setMobileOpen(false)} />}
-    {showSidebar && <aside className="sidebar" id="primary-sidebar" aria-label="Primary navigation">
-      <div className="sidebar-brand"><Brand /><button className="sidebar-toggle" type="button" aria-label={collapsed ? "Expand sidebar" : "Collapse sidebar"} title={collapsed ? "Expand sidebar" : "Collapse sidebar"} onClick={() => setCollapsed(!collapsed)}>{collapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}</button><button className="sidebar-mobile-close" type="button" aria-label="Close navigation" onClick={() => setMobileOpen(false)}><X size={20} /></button></div>
-      <div className="sidebar-group-label">EXPLORE</div>
-      <nav className="sidebar-nav" aria-label="Main navigation">
-        <NavLink to="/dashboard" end title="Overview" onClick={() => setMobileOpen(false)}><LayoutDashboard size={19} /><span className="nav-text">Overview</span></NavLink>
-        <NavLink to="/jobs" title="Find work" onClick={() => setMobileOpen(false)}><Compass size={19} /><span className="nav-text">Find work</span></NavLink>
-        <NavLink to="/contracts" title="Contracts" onClick={() => setMobileOpen(false)}><FileText size={19} /><span className="nav-text">Contracts</span></NavLink>
-        <NavLink to="/profile" title="Profile" onClick={() => setMobileOpen(false)}><UserRound size={19} /><span className="nav-text">Profile</span></NavLink>
+    {mobileOpen && showSidebar && <button className="sidebar-backdrop" type="button" aria-label={t("nav.close")} onClick={() => setMobileOpen(false)} />}
+    {showSidebar && <aside className="sidebar" id="primary-sidebar" aria-label={t("nav.explore")}>
+      <div className="sidebar-brand"><Brand /><button className="sidebar-toggle" type="button" aria-label={collapsed ? t("nav.expand") : t("nav.collapse")} title={collapsed ? t("nav.expand") : t("nav.collapse")} onClick={() => setCollapsed(!collapsed)}>{collapsed ? <PanelLeftOpen size={18} /> : <PanelLeftClose size={18} />}</button><button className="sidebar-mobile-close" type="button" aria-label={t("nav.close")} onClick={() => setMobileOpen(false)}><X size={20} /></button></div>
+      <div className="sidebar-group-label">{t("nav.explore")}</div>
+      <nav className="sidebar-nav" aria-label={t("nav.explore")}>
+        <NavLink to="/dashboard" end title={t("nav.overview")} onClick={() => setMobileOpen(false)}><LayoutDashboard size={19} /><span className="nav-text">{t("nav.overview")}</span></NavLink>
+        <NavLink to="/jobs" title={t("nav.findWork")} onClick={() => setMobileOpen(false)}><Compass size={19} /><span className="nav-text">{t("nav.findWork")}</span></NavLink>
+        <NavLink to="/contracts" title={t("nav.contracts")} onClick={() => setMobileOpen(false)}><FileText size={19} /><span className="nav-text">{t("nav.contracts")}</span></NavLink>
+        <NavLink to="/profile" title={t("nav.profile")} onClick={() => setMobileOpen(false)}><UserRound size={19} /><span className="nav-text">{t("nav.profile")}</span></NavLink>
       </nav>
-      {user?.modes.includes("CLIENT") && <Link to="/client/jobs/new" className="sidebar-create" title="Post a job" onClick={() => setMobileOpen(false)}><Plus size={18} /><span className="nav-text">Post a job</span></Link>}
+      {user?.modes.includes("CLIENT") && <Link to="/client/jobs/new" className="sidebar-create" title={t("nav.postJob")} onClick={() => setMobileOpen(false)}><Plus size={18} /><span className="nav-text">{t("nav.postJob")}</span></Link>}
       <div className="sidebar-spacer" />
-      {user && <><Link to="/profile" className="sidebar-account" title={user.displayName} onClick={() => setMobileOpen(false)}><span className="avatar">{user.displayName.slice(0, 1).toUpperCase()}</span><span className="sidebar-account-name"><strong>{user.displayName}</strong><small>{user.modes.map((mode) => mode.toLowerCase()).join(" · ")}</small></span></Link><button className="sidebar-signout" type="button" title="Sign out" onClick={logout}><LogOut size={17} /><span className="nav-text">Sign out</span></button></>}
+      {user && <><Link to="/profile" className="sidebar-account" title={user.displayName} onClick={() => setMobileOpen(false)}><span className="avatar">{user.displayName.slice(0, 1).toUpperCase()}</span><span className="sidebar-account-name"><strong>{user.displayName}</strong><small>{user.modes.map((mode) => mode.toLowerCase()).join(" · ")}</small></span></Link><button className="sidebar-signout" type="button" title={t("nav.signOut")} onClick={logout}><LogOut size={17} /><span className="nav-text">{t("nav.signOut")}</span></button></>}
     </aside>}
 
     <div className="app-content">
-      {checkingWorkspace ? null : showSidebar ? <header className="topbar"><div className="topbar-inner"><button className="mobile-menu-button" type="button" aria-label="Open navigation" aria-controls="primary-sidebar" aria-expanded={mobileOpen} onClick={() => setMobileOpen(true)}><Menu size={22} /></button><div className="mobile-brand"><Brand /></div><span className="topbar-context">{pageLabel}</span><div className="top-actions"><Link className="header-user" to="/profile"><span className="avatar">{user!.displayName.slice(0, 1).toUpperCase()}</span><span>{user!.displayName.split(" ")[0]}</span></Link></div></div></header>
-        : <header className="topbar public-topbar"><div className="topbar-inner"><Brand linked /><nav className="public-nav" aria-label="Public navigation"><a href="/#how-it-works">How it works</a></nav><div className="top-actions">{user ? <Link className="public-workspace-link" to="/dashboard">Go to workspace <ArrowUpRight size={16} /></Link> : <><Link className="header-signin" to="/login">Sign in</Link><Link className="button header-cta" to="/signup">Get started <ArrowUpRight size={16} /></Link></>}</div></div></header>}
+      {checkingWorkspace ? null : showSidebar ? <header className="topbar"><div className="topbar-inner"><button className="mobile-menu-button" type="button" aria-label={t("nav.open")} aria-controls="primary-sidebar" aria-expanded={mobileOpen} onClick={() => setMobileOpen(true)}><Menu size={22} /></button><div className="mobile-brand"><Brand /></div><span className="topbar-context">{pageLabel}</span><div className="top-actions">{languageSwitch}<Link className="header-user" to="/profile"><span className="avatar">{user!.displayName.slice(0, 1).toUpperCase()}</span><span>{user!.displayName.split(" ")[0]}</span></Link></div></div></header>
+        : <header className="topbar public-topbar"><div className="topbar-inner"><Brand linked /><nav className="public-nav" aria-label={t("nav.howItWorks")}><a href="/#how-it-works">{t("nav.howItWorks")}</a></nav><div className="top-actions">{languageSwitch}{user ? <Link className="public-workspace-link" to="/dashboard">{t("nav.workspace")} <ArrowUpRight size={16} /></Link> : <><Link className="header-signin" to="/login">{t("nav.signIn")}</Link><Link className="button header-cta" to="/signup">{t("nav.getStarted")} <ArrowUpRight size={16} /></Link></>}</div></div></header>}
       <main><Outlet /></main>
-      <footer className="footer"><span>© 2026 Archer</span><span>Independent work, done thoughtfully.</span></footer>
+      <footer className="footer"><span>© 2026 Archer</span><span>{t("footer.tagline")}</span></footer>
     </div>
   </div>;
 }

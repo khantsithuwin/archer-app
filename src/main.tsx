@@ -15,30 +15,34 @@ import { ClientJobPage } from "@/pages/client-job";
 import { ProposalsPage } from "@/pages/proposals";
 import { MyProposalPage } from "@/pages/my-proposal";
 import { ContractDetailPage, ContractsPage } from "@/pages/contracts";
+import { I18nProvider, useI18n } from "@/i18n";
 import "./index.css";
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 30_000, refetchOnWindowFocus: false } } });
 
 function RequireAuth() {
+  const { t } = useI18n();
   const location = useLocation();
   const { data: user, isLoading } = useCurrentUser();
   const returnTo = location.pathname + location.search;
 
   if (!authState.token) return <Navigate to="/login" replace state={{ from: returnTo }} />;
-  if (isLoading) return <section className="page-section"><div className="detail-skeleton" aria-label="Loading workspace" /></section>;
+  if (isLoading) return <section className="page-section"><div className="detail-skeleton" aria-label={t("common.loadingWorkspace")} /></section>;
   if (!user) return <Navigate to="/login" replace state={{ from: returnTo }} />;
   return <Outlet />;
 }
 
 function LandingRoute() {
+  const { t } = useI18n();
   const { data: user, isLoading } = useCurrentUser();
-  if (authState.token && isLoading) return <section className="page-section"><div className="detail-skeleton" aria-label="Checking session" /></section>;
+  if (authState.token && isLoading) return <section className="page-section"><div className="detail-skeleton" aria-label={t("common.checkingSession")} /></section>;
   return user ? <Navigate to="/dashboard" replace /> : <HomePage />;
 }
 
 function GuestOnly() {
+  const { t } = useI18n();
   const { data: user, isLoading } = useCurrentUser();
-  if (authState.token && isLoading) return <section className="page-section"><div className="detail-skeleton" aria-label="Checking session" /></section>;
+  if (authState.token && isLoading) return <section className="page-section"><div className="detail-skeleton" aria-label={t("common.checkingSession")} /></section>;
   return user ? <Navigate to="/dashboard" replace /> : <Outlet />;
 }
 
@@ -64,4 +68,4 @@ const router = createBrowserRouter([{ path: "/", element: <Layout />, children: 
   { path: "*", element: <Navigate to="/" replace /> },
 ] }]);
 
-createRoot(document.getElementById("root")!).render(<QueryClientProvider client={queryClient}><RouterProvider router={router} /></QueryClientProvider>);
+createRoot(document.getElementById("root")!).render(<I18nProvider><QueryClientProvider client={queryClient}><RouterProvider router={router} /></QueryClientProvider></I18nProvider>);

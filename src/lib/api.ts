@@ -1,3 +1,5 @@
+import { getLocale } from "@/i18n";
+
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4000/api/v1";
 
 type ApiEnvelope<T> = { data: T; meta?: Record<string, unknown> };
@@ -9,6 +11,7 @@ export const authState = { get token() { return accessToken; }, set token(value:
 export async function api<T>(path: string, init: RequestInit = {}): Promise<ApiEnvelope<T>> {
   const headers = new Headers(init.headers);
   headers.set("Content-Type", "application/json");
+  headers.set("Accept-Language", getLocale());
   if (accessToken) headers.set("Authorization", `Bearer ${accessToken}`);
   const response = await fetch(`${API_URL}${path}`, { ...init, headers, credentials: "include" });
   if (response.status === 204) return { data: undefined as T };
@@ -29,4 +32,4 @@ export type JobProposal = Omit<Proposal, "job"> & { freelancer: { id: string; di
 export type Contract = { id: string; status: string; job: Pick<Job, "id" | "title">; clientId?: string; freelancerId?: string; amountMinor?: number; currency?: "USD" | "MMK" };
 export type ContractDetail = Contract & { title: string; workType: "FIXED_PRICE" | "HOURLY"; client: { id: string; displayName: string }; freelancer: { id: string; displayName: string }; milestones: { id: string; title: string; description?: string | null; amountMinor: number; status: string; submissions: { id: string; message: string; deliverablesJson: string; createdAt: string }[] }[]; events: { id: string; actorId: string; type: string; detailsJson: string; createdAt: string }[] };
 
-export const money = (minor: number, currency: "USD" | "MMK") => new Intl.NumberFormat("en-US", { style: "currency", currency, minimumFractionDigits: currency === "USD" ? 2 : 0, maximumFractionDigits: currency === "USD" ? 2 : 0 }).format(currency === "USD" ? minor / 100 : minor);
+export const money = (minor: number, currency: "USD" | "MMK") => new Intl.NumberFormat(getLocale() === "my" ? "my-MM" : "en-US", { style: "currency", currency, minimumFractionDigits: currency === "USD" ? 2 : 0, maximumFractionDigits: currency === "USD" ? 2 : 0 }).format(currency === "USD" ? minor / 100 : minor);

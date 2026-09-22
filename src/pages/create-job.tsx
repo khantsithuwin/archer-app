@@ -5,8 +5,10 @@ import { useCurrentUser } from "@/components/layout";
 import { JobForm } from "@/components/job-form";
 import { api } from "@/lib/api";
 import type { jobFormPayload } from "@/lib/job-form";
+import { useI18n } from "@/i18n";
 
 export function CreateJobPage() {
+  const { t } = useI18n();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { data: user } = useCurrentUser();
@@ -18,7 +20,7 @@ export function CreateJobPage() {
     },
   });
 
-  if (!user?.modes.includes("CLIENT")) return <section className="page-section narrow-page"><div className="empty-card"><h1>Client access required</h1><p>Only client accounts can post jobs.</p><Link to="/dashboard" className="button">Back to workspace</Link></div></section>;
+  if (!user?.modes.includes("CLIENT")) return <section className="page-section narrow-page"><div className="empty-card"><h1>{t("post.clientRequired")}</h1><p>{t("post.clientRequiredBody")}</p><Link to="/dashboard" className="button">{t("common.backWorkspace")}</Link></div></section>;
 
-  return <section className="page-section narrow-page"><Link to="/dashboard" className="back-link"><ArrowLeft size={16} /> Back to workspace</Link><div className="form-heading"><span className="eyebrow">New opportunity</span><h1>What would you like to make?</h1><p>Start with a clear brief. Your job stays private as a draft until you publish it.</p></div><JobForm onSave={(payload) => mutation.mutate(payload)} busy={mutation.isPending} error={mutation.error?.message} submitLabel="Create draft" /></section>;
+  return <section className="page-section narrow-page"><Link to="/dashboard" className="back-link"><ArrowLeft size={16} /> {t("common.backWorkspace")}</Link><div className="form-heading"><span className="eyebrow">{t("post.eyebrow")}</span><h1>{t("post.title")}</h1><p>{t("post.subtitle")}</p></div><JobForm onSave={(payload) => mutation.mutate(payload)} busy={mutation.isPending} error={mutation.error?.message} submitLabel={t("post.saveDraft")} /></section>;
 }
