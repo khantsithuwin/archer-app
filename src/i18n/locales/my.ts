@@ -85,7 +85,7 @@ export const my: Record<TranslationKey, string> = {
   "auth.welcomeBack": "ပြန်လည်ကြိုဆိုပါသည်",
   "auth.signInTitle": "သင့်အလုပ်ခွင်သို့ ဝင်ပါ။",
   "auth.signInIntro": "အလုပ်ရှာရန်၊ အဆိုပြုချက်များစစ်ရန်နှင့် စီမံကိန်းများ ဆက်လက်လုပ်ဆောင်ရန် ပြန်လည်စတင်ပါ။",
-  "auth.email": "အီးမေးလ်လိပ်စာ",
+  "auth.email": "Email လိပ်စာ",
   "auth.password": "စကားဝှက်",
   "auth.signingIn": "အကောင့်ဝင်နေသည်…",
   "auth.noAccount": "Archer ကို အသစ်လား?",

@@ -1,7 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+Myanmar:wght@400;500;600;700&display=swap');
 
 :root {
-  font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-latin: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-myanmar: "Noto Sans Myanmar", "Myanmar Text", "Pyidaungsu", sans-serif;
+  font-family: var(--font-latin);
   color: #182d35;
   background: #f8faf9;
   font-synthesis: none;
@@ -21,7 +23,7 @@ body { min-width: 320px; margin: 0; }
 button, input, select, textarea { font: inherit; }
 .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
 .language-switch select { min-height: 34px; padding: 5px 28px 5px 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--paper); color: var(--ink); font-size: 12px; font-weight: 700; }
-html[lang="my"] body { font-family: "Noto Sans Myanmar", "Myanmar Text", "Pyidaungsu", 'DM Sans', sans-serif; }
+html[lang="my"] body { font-family: var(--font-myanmar); }
 button { cursor: pointer; }
 a { color: inherit; }
 h1, h2, h3, p { margin-top: 0; }
@@ -575,4 +577,58 @@ input:focus, textarea:focus, select:focus { border-color: var(--teal); box-shado
   .my-proposal-summary { padding: 21px; }
   .dashboard-hero-actions { width: 100%; justify-content: flex-start; }
   .footer { flex-direction: column; gap: 5px; padding: 25px 19px; }
+}
+
+/* Burmese uses taller glyphs and longer labels than the English interface. */
+html[lang="my"] body { line-height: 1.7; }
+html[lang="my"] h1,
+html[lang="my"] h2,
+html[lang="my"] h3 { font-weight: 700; letter-spacing: 0; line-height: 1.45; }
+html[lang="my"] .topbar { height: auto; min-height: 72px; }
+html[lang="my"] .topbar-inner { height: auto; min-height: 72px; padding-top: 10px; padding-bottom: 10px; }
+html[lang="my"] .button,
+html[lang="my"] .language-switch select,
+html[lang="my"] .public-nav a,
+html[lang="my"] .public-workspace-link,
+html[lang="my"] .header-signin,
+html[lang="my"] .header-user,
+html[lang="my"] .view-all,
+html[lang="my"] .back-link,
+html[lang="my"] .sidebar-nav a,
+html[lang="my"] .sidebar-create,
+html[lang="my"] .sidebar-signin,
+html[lang="my"] .sidebar-signout,
+html[lang="my"] .mode-switch button { height: auto; white-space: normal; line-height: 1.65; }
+html[lang="my"] .sidebar-nav a,
+html[lang="my"] .sidebar-create,
+html[lang="my"] .sidebar-signin,
+html[lang="my"] .sidebar-signout { padding-top: 8px; padding-bottom: 8px; }
+html[lang="my"] .eyebrow,
+html[lang="my"] .hero-visual-top > span:last-child,
+html[lang="my"] .preview-label,
+html[lang="my"] .preview-footer small,
+html[lang="my"] .process-number,
+html[lang="my"] .badge,
+html[lang="my"] .status,
+html[lang="my"] .sidebar-group-label { letter-spacing: 0; text-transform: none; }
+html[lang="my"] .contract-history strong,
+html[lang="my"] .client-job-facts strong,
+html[lang="my"] .sidebar-account-name small { text-transform: none; }
+html[lang="my"] .eyebrow,
+html[lang="my"] .preview-label,
+html[lang="my"] .preview-footer small,
+html[lang="my"] .sidebar-group-label,
+html[lang="my"] .compact-contracts .status { font-size: 11px; font-weight: 700; }
+html[lang="my"] .hero-preview p,
+html[lang="my"] .job-excerpt { display: block; overflow: visible; min-height: 0; -webkit-line-clamp: unset; }
+html[lang="my"] .activity-copy > a,
+html[lang="my"] .activity-copy > strong,
+html[lang="my"] .compact-contracts a strong,
+html[lang="my"] .sidebar-account-name strong { overflow: visible; text-overflow: clip; white-space: normal; line-height: 1.6; }
+
+@media (max-width: 600px) {
+  html[lang="my"] .topbar,
+  html[lang="my"] .topbar-inner { min-height: 67px; }
+  html[lang="my"] .public-topbar .topbar-inner { flex-wrap: wrap; }
+  html[lang="my"] .top-actions { flex-wrap: wrap; justify-content: flex-end; }
 }

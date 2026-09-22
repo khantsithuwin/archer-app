@@ -10,7 +10,7 @@ import { ProposalForm } from "@/components/proposal-form";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { enumLabel, useI18n } from "@/i18n";
+import { enumLabel, firstGrapheme, useI18n } from "@/i18n";
 
 export function JobDetailPage() {
   const { locale, t, tr } = useI18n();
@@ -50,6 +50,6 @@ export function JobDetailPage() {
       : <Button className="button-wide" onClick={() => setShowProposalForm(true)}><Send size={16} /> {tr("Submit a proposal")}</Button>}
     <p className="fine-print"><ShieldCheck size={14} /> {tr("Your proposal stays private to this client.")}</p></Card>
     {showProposalForm && canShowForm && <ProposalForm initial={{ coverLetter: "", amount: formatRateInput(job.budgetMinMinor, job.currency), currency: job.currency, estimatedDuration: job.estimatedDuration ?? "" }} title={tr("Make a thoughtful case")} submitLabel={tr("Send proposal")} busy={proposalMutation.isPending} error={proposalMutation.error?.message} onSave={(payload) => proposalMutation.mutate(payload)} onCancel={() => setShowProposalForm(false)} />}
-    <Card className="client-card"><span className="eyebrow">{tr("About the client")}</span><div className="client-row"><span className="avatar">{job.client.displayName.slice(0, 1)}</span><span><strong>{job.client.displayName}</strong><small>{job.client.country ?? t("common.remote")}</small></span></div></Card>
+    <Card className="client-card"><span className="eyebrow">{tr("About the client")}</span><div className="client-row"><span className="avatar">{firstGrapheme(job.client.displayName, locale)}</span><span><strong>{job.client.displayName}</strong><small>{job.client.country ?? t("common.remote")}</small></span></div></Card>
   </aside></div></section>;
 }

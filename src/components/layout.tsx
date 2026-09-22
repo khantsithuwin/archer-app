@@ -3,7 +3,7 @@ import { ArrowUpRight, Compass, FileText, LayoutDashboard, LogOut, Menu, PanelLe
 import { Link, NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, authState, normalizeUser, type User } from "@/lib/api";
-import { useI18n } from "@/i18n";
+import { enumLabel, firstGrapheme, useI18n } from "@/i18n";
 
 export function useCurrentUser() {
   return useQuery({
@@ -62,11 +62,11 @@ export function Layout() {
       </nav>
       {user?.modes.includes("CLIENT") && <Link to="/client/jobs/new" className="sidebar-create" title={t("nav.postJob")} onClick={() => setMobileOpen(false)}><Plus size={18} /><span className="nav-text">{t("nav.postJob")}</span></Link>}
       <div className="sidebar-spacer" />
-      {user && <><Link to="/profile" className="sidebar-account" title={user.displayName} onClick={() => setMobileOpen(false)}><span className="avatar">{user.displayName.slice(0, 1).toUpperCase()}</span><span className="sidebar-account-name"><strong>{user.displayName}</strong><small>{user.modes.map((mode) => mode.toLowerCase()).join(" · ")}</small></span></Link><button className="sidebar-signout" type="button" title={t("nav.signOut")} onClick={logout}><LogOut size={17} /><span className="nav-text">{t("nav.signOut")}</span></button></>}
+      {user && <><Link to="/profile" className="sidebar-account" title={user.displayName} onClick={() => setMobileOpen(false)}><span className="avatar">{firstGrapheme(user.displayName, locale).toLocaleUpperCase(locale)}</span><span className="sidebar-account-name"><strong>{user.displayName}</strong><small>{user.modes.map((mode) => enumLabel(mode, locale)).join(" · ")}</small></span></Link><button className="sidebar-signout" type="button" title={t("nav.signOut")} onClick={logout}><LogOut size={17} /><span className="nav-text">{t("nav.signOut")}</span></button></>}
     </aside>}
 
     <div className="app-content">
-      {checkingWorkspace ? null : showSidebar ? <header className="topbar"><div className="topbar-inner"><button className="mobile-menu-button" type="button" aria-label={t("nav.open")} aria-controls="primary-sidebar" aria-expanded={mobileOpen} onClick={() => setMobileOpen(true)}><Menu size={22} /></button><div className="mobile-brand"><Brand /></div><span className="topbar-context">{pageLabel}</span><div className="top-actions">{languageSwitch}<Link className="header-user" to="/profile"><span className="avatar">{user!.displayName.slice(0, 1).toUpperCase()}</span><span>{user!.displayName.split(" ")[0]}</span></Link></div></div></header>
+      {checkingWorkspace ? null : showSidebar ? <header className="topbar"><div className="topbar-inner"><button className="mobile-menu-button" type="button" aria-label={t("nav.open")} aria-controls="primary-sidebar" aria-expanded={mobileOpen} onClick={() => setMobileOpen(true)}><Menu size={22} /></button><div className="mobile-brand"><Brand /></div><span className="topbar-context">{pageLabel}</span><div className="top-actions">{languageSwitch}<Link className="header-user" to="/profile"><span className="avatar">{firstGrapheme(user!.displayName, locale).toLocaleUpperCase(locale)}</span><span>{user!.displayName.split(" ")[0]}</span></Link></div></div></header>
         : <header className="topbar public-topbar"><div className="topbar-inner"><Brand linked /><nav className="public-nav" aria-label={t("nav.howItWorks")}><a href="/#how-it-works">{t("nav.howItWorks")}</a></nav><div className="top-actions">{languageSwitch}{user ? <Link className="public-workspace-link" to="/dashboard">{t("nav.workspace")} <ArrowUpRight size={16} /></Link> : <><Link className="header-signin" to="/login">{t("nav.signIn")}</Link><Link className="button header-cta" to="/signup">{t("nav.getStarted")} <ArrowUpRight size={16} /></Link></>}</div></div></header>}
       <main><Outlet /></main>
       <footer className="footer"><span>© 2026 Archer</span><span>{t("footer.tagline")}</span></footer>

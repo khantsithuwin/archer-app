@@ -2,9 +2,10 @@ import { createContext, useContext, useEffect, useMemo, useState, type ReactNode
 import { en, type TranslationKey } from "./locales/en";
 import { my } from "./locales/my";
 import { myPhrases } from "./locales/phrases-my";
+import { applyDocumentLocale, interpolate, resolveLocale, type Locale, type Variables } from "./core";
 
-export type Locale = "en" | "my";
-type Variables = Record<string, string | number>;
+export type { Locale } from "./core";
+export { firstGrapheme } from "./core";
 type I18nValue = { locale: Locale; setLocale: (locale: Locale) => void; t: (key: TranslationKey, variables?: Variables) => string; tr: (english: string, variables?: Variables) => string };
 
 const STORAGE_KEY = "archer_locale";
@@ -12,22 +13,20 @@ const dictionaries = { en, my };
 const I18nContext = createContext<I18nValue | null>(null);
 
 export function getLocale(): Locale {
-  const saved = localStorage.getItem(STORAGE_KEY);
-  if (saved === "en" || saved === "my") return saved;
-  return navigator.language.toLowerCase().startsWith("my") ? "my" : "en";
+  return resolveLocale(localStorage.getItem(STORAGE_KEY), navigator.language);
 }
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocale] = useState<Locale>(getLocale);
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, locale);
-    document.documentElement.lang = locale;
+    applyDocumentLocale(document.documentElement, locale);
   }, [locale]);
   const value = useMemo<I18nValue>(() => ({
     locale,
     setLocale,
-    t: (key, variables = {}) => Object.entries(variables).reduce((text, [name, value]) => text.replaceAll(`{${name}}`, String(value)), dictionaries[locale][key]),
-    tr: (english, variables = {}) => Object.entries(variables).reduce((text, [name, value]) => text.replaceAll(`{${name}}`, String(value)), locale === "my" ? myPhrases[english] ?? english : english),
+    t: (key, variables = {}) => interpolate(dictionaries[locale][key], variables),
+    tr: (english, variables = {}) => interpolate(locale === "my" ? myPhrases[english] ?? english : english, variables),
   }), [locale]);
   return <I18nContext.Provider value={value}>{children}</I18nContext.Provider>;
 }
@@ -46,6 +45,7 @@ const myEnums: Record<string, string> = {
   SHORTLISTED: "ရွေးချယ်စာရင်းဝင်", ACCEPTED: "လက်ခံထားသည်", REJECTED: "ငြင်းပယ်ထားသည်",
   WITHDRAWN: "ပြန်ရုပ်သိမ်းထားသည်", CHANGES_REQUESTED: "ပြင်ဆင်ရန်တောင်းဆိုထားသည်", APPROVED: "အတည်ပြုထားသည်",
   ENTRY: "အစပြု", INTERMEDIATE: "အလယ်အလတ်", EXPERT: "ကျွမ်းကျင်",
+  CLIENT: "အလုပ်ရှင်", FREELANCER: "လွတ်လပ်ပညာရှင်",
 };
 
 export function enumLabel(value: string, locale: Locale): string {
