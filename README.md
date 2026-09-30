@@ -40,8 +40,11 @@ Use the `EN` / `မြန်မာ` selector in the header to change the interfa
 npm run typecheck
 npm run lint
 npm test
+npm run test:e2e
 npm run build
 ```
+
+The Playwright journey test needs Chromium (`npx playwright install chromium`). It starts the API from the sibling `archer-api` repository and seeds an isolated E2E database under `/tmp`.
 
 ## Demo accounts
 
